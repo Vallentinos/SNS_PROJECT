@@ -527,8 +527,9 @@
 			} else if (bmTitle === "") {
 				alert("북마크 제목을 입력해 주십시오.");
 			} else {
-				$("#bmTitle").val(bmTitle);
-				$(inBookMark).attr("action", "insertBoardBookMark").submit();
+				 var form = $(inBookMark).closest("form");
+			        form.find("#bmTitle").val(bmTitle);
+			        form.attr("action", "insertBoardBookMark").submit();
 			}
 		}
 		
