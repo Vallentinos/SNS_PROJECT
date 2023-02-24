@@ -15,7 +15,7 @@ function openCity(evt) {
     console.log('flex_Container:', flex_Container);
     console.log('taps:', taps);
 
-    for (var i = 0; i < flex_Container.length; i++) {
+    for (let i = 0; i < flex_Container.length; i++) {
         flex_Container[i].classList.remove('active');
         taps[i].classList.remove('on');
     }
