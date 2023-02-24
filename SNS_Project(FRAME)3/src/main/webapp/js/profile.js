@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function openCity(evt) {
-    var i;
-    var elem = evt.target;
+    let i;
+    let elem = evt.target;
     console.log('elem:', elem);
     console.log('flex_Container:', flex_Container);
     console.log('taps:', taps);

@@ -33,47 +33,39 @@ public class profileController {
 	private BookMarkService bookMarkService;
 	@Autowired
 	private HeartService heartService;
-	
+
 	@GetMapping("profile.do")
-	public String goProfile(MemberVO mvo, BoardVO bvo, HeartVO heart, BookMarkVO bookMark, Model model, HttpSession session) {
-		
+	public String goProfile(MemberVO mvo, BoardVO bvo, HeartVO heart, BookMarkVO bookMark, Model model,
+			HttpSession session) {
+
 		MemberVO member = memberService.MemberCheck(mvo);
-		List<BoardVO> list= boardService.myBoardList(bvo);
+		List<BoardVO> list = boardService.myBoardList(bvo);
 		int boardCount = boardService.boardCount(bvo);
 		bvo.setCount(boardCount);
-		
-		
-		
+
 		FollowVO follow = new FollowVO();
 		follow.setId1(mvo.getId().toString());
 		follow.setId2(mvo.getId().toString());
-		//System.out.println(follow);
-		
-//		FollowVO checkFollow = new FollowVO();
-//		checkFollow.setId1(mvo.getId().toString());
-//		checkFollow.setId2((String)session.getAttribute("user.id"));
-		
+		// System.out.println(follow);
+
 		int follower = followService.getCountFollow(follow);
 		int following = followService.getCountFollowing(follow);
-		
-		//System.out.println("boardVO :"+bvo);
-		
-		model.addAttribute("board",bvo);
-		model.addAttribute("boardList",list);
-		model.addAttribute("member",member);
-		model.addAttribute("follower",follower);
-		model.addAttribute("following",following);
-		
-		//ÇÏÆ®
+
+		// System.out.println("boardVO :"+bvo);
+
+		model.addAttribute("board", bvo);
+		model.addAttribute("boardList", list);
+		model.addAttribute("member", member);
+		model.addAttribute("follower", follower);
+		model.addAttribute("following", following);
+
+		// ï¿½ï¿½Æ®
 		heart.setId(member.getId());
 		List<Integer> Shorts = heartService.shortsLike(heart);
-		
-		
-		
-		
-		// ºÏ¸¶Å© °ü·Ã
+
+		// ï¿½Ï¸ï¿½Å© ï¿½ï¿½ï¿½ï¿½
 		bookMark.setId(member.getId());
-		
+
 		List<BookMarkVO> myBoardList = bookMarkService.getMyBoardList(bookMark);
 		List<BookMarkVO> bookMarkList = bookMarkService.getBookMarkList(bookMark);
 		List<Integer> boardBookMarkNums = bookMarkService.getBoardBookMarkNums(bookMark);
@@ -81,14 +73,14 @@ public class profileController {
 		List<BookMarkVO> boardBookMarkList = bookMarkService.getBoardBookMarkList(bookMark);
 		List<BookMarkVO> shortsBookMarkList = bookMarkService.getShortsBookMarkList(bookMark);
 		System.out.println(shortsBookMarkList);
-		
+
 		session.setAttribute("boardBookMarkNums", boardBookMarkNums);
 		session.setAttribute("shortsBookMarkNums", shortsBookMarkNums);
 		model.addAttribute("myBoardList", myBoardList);
 		model.addAttribute("bookMarkList", bookMarkList);
 		model.addAttribute("boardBookMarkList", boardBookMarkList);
 		model.addAttribute("shortsBookMarkList", shortsBookMarkList);
-		
+
 		return "myPage";
 	}
 }

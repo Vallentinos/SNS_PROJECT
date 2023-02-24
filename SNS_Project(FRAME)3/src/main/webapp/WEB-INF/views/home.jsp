@@ -406,7 +406,7 @@
 	</section>
 	<script src="js/common.js"></script>
 	<script type="text/javascript">
-   var prev_element = null;
+   let prev_element = null;
    
 function check_id() {   
    if ($("#check").val()=='' || $("#check").val()==null) {
@@ -433,7 +433,7 @@ function like_c(comment) {
 }
 function toggle(element){
    
-   var con = document.getElementById(element.getAttribute("id"));
+   let con = document.getElementById(element.getAttribute("id"));
    if(con.style.display=='none'){
       con.style.display = 'block';
    }else{
@@ -465,13 +465,13 @@ function deleteBoardBookMark(delBookMark) {
 }
 
 function insertBoardBookMark(inBookMark) {
-    var bmTitle = prompt("북마크 제목", "");
+    let bmTitle = prompt("북마크 제목", "");
     if (bmTitle === null) { // 유저가 취소를 눌렀을때
         return;
     } else if (bmTitle === "") {
         alert("북마크 제목을 입력해 주십시오.");
     } else {
-        var form = $(inBookMark).closest("form");
+        let form = $(inBookMark).closest("form");
         form.find("#bmTitle").val(bmTitle);
         form.attr("action", "insertBoardBookMark").submit();
     }

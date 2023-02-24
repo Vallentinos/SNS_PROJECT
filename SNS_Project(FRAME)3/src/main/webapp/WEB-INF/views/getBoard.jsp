@@ -349,7 +349,7 @@
 	</section>
 	<script type="text/javascript">
 	
-		var prev_element = null;
+		let prev_element = null;
 		function check_id() {
 			if ($("#check").val() == '' || $("#check").val() == null) {
 				alert("로그인을 해주세요");
@@ -369,7 +369,7 @@
 			$(comment).submit();
 		}
 		function toggle(element) {
-			var con = document.getElementById(element.getAttribute("id"));
+			let con = document.getElementById(element.getAttribute("id"));
 			if (con.style.display == 'none') {
 				con.style.display = 'block';
 			} else {
@@ -384,7 +384,7 @@
 		}
 
 		function insertBoardBookMark(inBookMark) {
-			var bmTitle = prompt("북마크 제목", "");
+			let bmTitle = prompt("북마크 제목", "");
 			if (bmTitle === null) {
 				// User clicked "Cancel" in the prompt dialog
 				return;

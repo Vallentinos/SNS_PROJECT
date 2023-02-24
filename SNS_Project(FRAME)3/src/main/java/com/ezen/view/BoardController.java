@@ -7,7 +7,6 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -67,28 +66,26 @@ public class BoardController {
 
 	@RequestMapping(value = "/home.do")
 	public String BoardList(BoardVO bVo, CommentVO cVo, Model model, HttpSession session, ShortsVO sVo) {
-		
 
 		FollowVO fvo = new FollowVO();
 		List<MemberVO> recoMemberList = new ArrayList<>();
-		MemberVO mvo2 = (MemberVO) session.getAttribute("user");
+		MemberVO mvo1 = (MemberVO) session.getAttribute("user");
 
-		if (mvo2 != null) {
+		if (mvo1 != null) {
 
-			fvo.setId1(mvo2.getId());
-			List<String> followerList = (List<String>) session.getAttribute("follower");
+			fvo.setId1(mvo1.getId());
+			List<String> followerList = (List<String>) session.getAttribute("follower"); // 세션에서 로드한 String을 List<String>
 			List<String> recom = followService.recomFollow(fvo.getId1());
-
 			if (recom == null || recom.isEmpty()) {
 				recom = memberService.recomMember();
 			}
-			// 추천에 본인과 이미 팔로우한 사람 제거
+			// 異붿쿇�뿉 蹂몄씤怨� �씠誘� �뙏濡쒖슦�븳 �궗�엺 �젣嫄�
 			System.out.println("recom = " + recom);
 			recom.remove(fvo.getId1());
 			for (String follower : followerList) {
 				recom.remove(follower);
 			}
-			// 추천 멤버 객체 불러오기
+			// 異붿쿇 硫ㅻ쾭 媛앹껜 遺덈윭�삤湲�
 			for (String id : recom) {
 				MemberVO member = new MemberVO();
 				member.setId(id);
@@ -122,28 +119,19 @@ public class BoardController {
 				if (i == 3 * n && n < getadverList.size()) {
 					newBoardList.add(i, getadverList.get(n));
 					n++;
-				} else if (i == newBoardList.size() - 1 && n <= getadverList.size() - 1) { // 마지막까지 출력되지 않은 광고가 있을 경우
+				} else if (i == newBoardList.size() - 1 && n <= getadverList.size() - 1) { // 留덉�留됯퉴吏� 異쒕젰�릺吏� �븡��
+																							// 愿묎퀬媛� �엳�쓣 寃쎌슦
 					newBoardList.add(i, getadverList.get(n));
-					i++; // 무한루프 방지
+					i++; // 臾댄븳猷⑦봽 諛⑹�
 				}
 
 			}
 			model.addAttribute("newBoardList", newBoardList);
-			timeBoardList = newBoardList; // 불러온 보드리스트를 다음에 다시불러오도록 저장한다.
+			timeBoardList = newBoardList; // 遺덈윭�삩 蹂대뱶由ъ뒪�듃瑜� �떎�쓬�뿉 �떎�떆遺덈윭�삤�룄濡� ���옣�븳�떎.
 		} else {
 			pastList = timeBoardList;
 			model.addAttribute("newBoardList", pastList);
 		}
-
-		/*
-		 * 원본 for (BoardVO vo : getadverList) {
-		 * 
-		 * newBoardList.add(i, vo);
-		 * 
-		 * if (newBoardList.size() >= i + 4) { i = i + 3; } else {
-		 * 
-		 * i++;
-		 */
 
 		List<MemberVO> memberList = new ArrayList<>();
 		List<CommentVO> commentList = new ArrayList<CommentVO>();
@@ -154,11 +142,11 @@ public class BoardController {
 		List<ShortsVO> shortsList = shortsService.getShortsList(sVo);
 		List<MemberVO> shortsMemberList = new ArrayList<>();
 		List<BoardVO> xBoardList;
-		// 첫 로드
+		// 泥� 濡쒕뱶
 		if (x == 0) {
 			xBoardList = newBoardList;
 		} else {
-			xBoardList = pastList;// x는 처음에 게시글을 불러왔는지, 나중에 불러왔는지 구분하는데 사용한다.
+			xBoardList = pastList;// x�뒗 泥섏쓬�뿉 寃뚯떆湲��쓣 遺덈윭�솕�뒗吏�, �굹以묒뿉 遺덈윭�솕�뒗吏� 援щ텇�븯�뒗�뜲 �궗�슜�븳�떎.
 		}
 		for (BoardVO vo : xBoardList) {
 
@@ -167,11 +155,11 @@ public class BoardController {
 			String btnTime;
 
 			if (btn.getYears() != 0) {
-				btnTime = btn.getYears() + "년" + btn.getMonths() + "월" + btn.getDays() + "일 전";
+				btnTime = btn.getYears() + "�뀈" + btn.getMonths() + "�썡" + btn.getDays() + "�씪 �쟾";
 			} else if (btn.getMonths() != 0) {
-				btnTime = btn.getMonths() + "월" + btn.getDays() + "일 전";
+				btnTime = btn.getMonths() + "�썡" + btn.getDays() + "�씪 �쟾";
 			} else {
-				btnTime = btn.getDays() + "일 전";
+				btnTime = btn.getDays() + "�씪 �쟾";
 			}
 
 			time.add(btnTime);
@@ -207,11 +195,11 @@ public class BoardController {
 			shortsMemberList.add(v1);
 
 			if (stn.getYears() != 0) {
-				stnTime = stn.getYears() + "년" + stn.getMonths() + "월" + stn.getDays() + "일 전";
+				stnTime = stn.getYears() + "�뀈" + stn.getMonths() + "�썡" + stn.getDays() + "�씪 �쟾";
 			} else if (stn.getMonths() != 0) {
-				stnTime = stn.getMonths() + "월" + stn.getDays() + "일 전";
+				stnTime = stn.getMonths() + "�썡" + stn.getDays() + "�씪 �쟾";
 			} else {
-				stnTime = stn.getDays() + "일 전";
+				stnTime = stn.getDays() + "�씪 �쟾";
 			}
 			stime.add(stnTime);
 		}
@@ -224,18 +212,19 @@ public class BoardController {
 		model.addAttribute("shortsList", shortsList);
 		model.addAttribute("getshortsList", shortsMemberList);
 
-		// BookMark 관련
+		// BookMark 愿��젴
 		if (session.getAttribute("user") != null) {
 
 			BookMarkVO bookMark = new BookMarkVO();
-			bookMark.setId(mvo2.getId());
+			bookMark.setId(mvo1.getId());
 			List<Integer> boardBookMarkNums = bookMarkService.getBoardBookMarkNums(bookMark);
 
 			session.setAttribute("boardBookMarkNums", boardBookMarkNums);
 		}
 		System.out.println(x);
 		x++;
-		if (x >= 10) x = 0;
+		if (x >= 10)
+			x = 0;
 
 		return "home";
 	}
@@ -291,11 +280,11 @@ public class BoardController {
 		Period btn = Period.between(boarDate, LocalDate.now());
 		String btnTime;
 		if (btn.getYears() != 0) {
-			btnTime = btn.getYears() + "년" + btn.getMonths() + "월" + btn.getDays() + "일 전";
+			btnTime = btn.getYears() + "�뀈" + btn.getMonths() + "�썡" + btn.getDays() + "�씪 �쟾";
 		} else if (btn.getMonths() != 0) {
-			btnTime = btn.getMonths() + "월" + btn.getDays() + "일 전";
+			btnTime = btn.getMonths() + "�썡" + btn.getDays() + "�씪 �쟾";
 		} else {
-			btnTime = btn.getDays() + "일 전";
+			btnTime = btn.getDays() + "�씪 �쟾";
 		}
 
 		model.addAttribute("time", btnTime);
@@ -318,7 +307,7 @@ public class BoardController {
 		System.out.println("commentList :" + commentList);
 		System.out.println("cvo :" + cvo);
 
-		// 북마크 관련
+		// 遺곷쭏�겕 愿��젴
 		if (session.getAttribute("user") != null) {
 
 			BookMarkVO bookMark = new BookMarkVO();
@@ -360,7 +349,7 @@ public class BoardController {
 	@RequestMapping("deleteBoard.do")
 	public String DeleteBoard(BoardVO vo, HttpSession session) throws IllegalStateException, IOException {
 		boardService.deleteBoard(vo);
-		System.out.println("딜리트:" + vo);
+		System.out.println("�뵜由ы듃:" + vo);
 
 		return "redirect:home.do";
 	}
