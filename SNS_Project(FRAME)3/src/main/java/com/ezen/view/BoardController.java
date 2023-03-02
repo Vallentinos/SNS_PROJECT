@@ -342,6 +342,7 @@ public class BoardController {
 
 		System.out.println(vo);
 		boardService.InsertBoard(vo);
+		x=0;
 
 		return "redirect:home.do";
 	}

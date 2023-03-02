@@ -65,5 +65,9 @@
 		SET pay=pay+1
 		WHERE sSeq=#{sSeq}
 	</update>
+	
+	<select id="getUploadFileList" resultType ="String">
+		SELECT upload FROM shorts
+	</select>
 
 </mapper>

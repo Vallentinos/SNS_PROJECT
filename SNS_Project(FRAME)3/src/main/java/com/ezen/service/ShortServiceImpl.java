@@ -67,5 +67,10 @@ public class ShortServiceImpl implements ShortsService {
 		
 		return sDAO.getAdShortsList(vo);
 	}
+	
+	@Override
+	public List<String> getUploadFileList() {
+		return sDAO.getUploadFileList();
+	}
 
 }

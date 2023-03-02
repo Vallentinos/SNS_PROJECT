@@ -23,4 +23,6 @@ public interface ShortsService {
 	void updatePay(int sSeq);
 	
 	void updateManusPay(int sSeq);
+	
+	List<String> getUploadFileList();
 }

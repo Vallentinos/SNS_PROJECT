@@ -43,7 +43,8 @@ public class ShortsController {
 	private BookMarkService bookMarkService;
 	@Autowired
 	private CommentService commentService;
-
+	
+	
 	@RequestMapping("/getShorts")
 	public String getShorts(ShortsVO vo, ShortsCommentVO scvo, CommentVO cvo,BookMarkVO bmvo, Model model, HttpSession session) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
@@ -137,6 +138,7 @@ public class ShortsController {
 	public String insertShorts(ShortsVO vo, Model model, HttpSession session) throws IOException {
 
 		MemberVO user = (MemberVO) session.getAttribute("user");
+		List<String> fileList = shos.getUploadFileList();
 
 		if (user == null) {
 
@@ -146,10 +148,11 @@ public class ShortsController {
 
 			MultipartFile uploadFile = vo.getUploadFile();
 			if (!uploadFile.isEmpty()) {
-
+				
 				String fileName = uploadFile.getOriginalFilename();
-
+				if(!fileList.contains(fileName)) {
 				uploadFile.transferTo(new File("C:/shorts/" + fileName));
+				}
 				vo.setUpload(fileName);
 				System.out.println("�뙆�씪�씠由� :" + fileName);
 
